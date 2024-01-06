@@ -10,6 +10,17 @@ from datetime import datetime
 from termcolor import colored
 
 
+def print_banner():
+    print("""
+                  __    ____             __         
+       __________/ /_  / __ )_______  __/ /____     
+      / ___/ ___/ __ \/ __  / ___/ / / / __/ _ \\   
+     (__  |__  ) / / / /_/ / /  / /_/ / /_/  __/    
+    /____/____/_/ /_/_____/_/   \__,_/\__/\___/     
+
+    """)
+
+
 def get_args():
     parser = argparse.ArgumentParser(description="SSH Bruteforcer")
 
@@ -64,6 +75,8 @@ async def main(target, port, username, wordlist):
 
 
 if __name__ == '__main__':
+    print_banner()
+
     args = get_args()
 
     if not path.exists(args.wordlist):
