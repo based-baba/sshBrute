@@ -14,10 +14,16 @@ SSH Bruteforcer
 ## Installation
 
 ```
-git clone https://github.com/based-baba/sshBrute
+# Clone the project locally
+git clone https://github.com/basedBaba/sshBrute
 
+# Create a virtual environment and install the required packages
 cd sshBrute
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
+# Make the script executable
 chmod +x sshbrute.py
 
 ./sshbrute.py -h
