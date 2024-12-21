@@ -11,7 +11,7 @@ from termcolor import colored
 
 
 def print_banner():
-    print("""
+    print(r"""
                   __    ____             __         
        __________/ /_  / __ )_______  __/ /____     
       / ___/ ___/ __ \/ __  / ___/ / / / __/ _ \\   
